@@ -89,7 +89,7 @@ export default function Menu() {
       to: "/defineEmployee",
     },
     {
-      label: "Kullanıcı Tanımlama ",
+      label: "Yapılacaklar Listesi ",
       icon: <FaUserPlus size={SIZE} />,
       to: "/defineUser",
     },

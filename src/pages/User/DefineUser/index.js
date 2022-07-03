@@ -10,10 +10,7 @@ export default function DefineUser() {
   const [selectedUser, setSelectedUser] = useState(null);
 
   let emptyUserInfo = {
-    username: "",
-    nameSurname: "",
-    email: "",
-    password: "",
+    name: "",
   };
 
   const [visible, setVisible] = useState(false);
@@ -35,8 +32,8 @@ export default function DefineUser() {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 
-  const getAllUser = async () => {
-    const { data = [], error } = await api.user.getAllUser();
+  const getToDoList = async () => {
+    const { data = [], error } = await api.user.getToDoList(localStorage.getItem("id"));
     if (error) {
       Toast.error(error);
     }
@@ -49,16 +46,13 @@ export default function DefineUser() {
     if (!userInfo.username || !userInfo.nameSurname || !userInfo.email || !userInfo.password) return;
 
     const params = {
-      username: userInfo.username,
-      nameSurname: userInfo.nameSurname,
-      email: userInfo.email,
-      role: [],
-      password: userInfo.password,
+      name: userInfo.name,
+      userId: localStorage.getItem("id"),
     };
-    const { data = [], error } = await api.user.saveUser({ ...params });
+    const { data = [], error } = await api.user.saveToDoList({ ...params });
     if (error) return Toast.error(error);
 
-    getAllUser();
+    getToDoList();
 
     Toast.success("İşlem Başarılı");
     hideModal();
@@ -79,7 +73,7 @@ export default function DefineUser() {
     const { data = [], error } = await api.user.updateUser({ ...params });
     if (error) return Toast.error(error);
 
-    getAllUser();
+    getToDoList();
 
     Toast.success("işlem Başarılı");
     hideModal();
@@ -95,7 +89,7 @@ export default function DefineUser() {
       accept: async () => {
         const { data = [], error } = await api.user.deleteUser(item?.id);
         if (error) return Toast.error(error);
-        getAllUser();
+        getToDoList();
 
         Toast.success("işlem Başarılı");
       },
@@ -117,7 +111,7 @@ export default function DefineUser() {
   };
 
   useEffect(() => {
-    getAllUser();
+    getToDoList();
   }, []);
 
   return (
@@ -125,28 +119,12 @@ export default function DefineUser() {
       <div className="flex justify-content-end">
         <Button label="Yeni" icon="pi pi-plus" className="p-button-success" onClick={showModal} />
       </div>
-      <Modal
-        header={selectedUser?.id ? "Kullancı Güncelle" : "Yapılacak ekle"}
-        visible={visible}
-        onHide={hideModal}
-        onPress={selectedUser?.id ? handleUpdateUser : handleSaveUser}
-        label={selectedUser?.id && "Güncelle"}
-      >
-        <Input
-          onKeyPress={onKeyPress}
-          autoFocus
-          name="name"
-          label="Yapılacaklar"
-          errorText={submitted && !userInfo.username && "Lütfen boş bırakmayınız."}
-          value={userInfo.username}
-          onChange={onChangeUserInfo}
-        />
+      <Modal header={selectedUser?.id ? "Kullancı Güncelle" : "Yapılacak ekle"} visible={visible} onHide={hideModal} onPress={selectedUser?.id ? handleUpdateUser : handleSaveUser} label={selectedUser?.id && "Güncelle"}>
+        <Input onKeyPress={onKeyPress} autoFocus name="name" label="Yapılacaklar" errorText={submitted && !userInfo.name && "Lütfen boş bırakmayınız."} value={userInfo.username} onChange={onChangeUserInfo} />
       </Modal>
 
       <DataTable data={allUser} sortOrder={-1}>
-        <Column field="username" sortable header="Kullanıcı Adı" />
-        <Column field="nameSurname" sortable header="Kullanıcı Soyadı" />
-        <Column field="email" sortable header="Kullanıcı E-Posta" />
+        <Column field="name" sortable header="Yapılacaklar" />
         <Column body={(item) => actionsTemplate(item)} />
       </DataTable>
     </div>

@@ -79,7 +79,7 @@ export const routers = [
   {
     path: "/defineUser",
     component: DefineUser,
-    label: "Kullanıcı Tanımlama",
+    label: "Yapılacaklar Listesi",
   },
   // {
   //   path: "/defineColour",

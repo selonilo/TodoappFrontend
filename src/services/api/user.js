@@ -15,6 +15,16 @@ class user {
   };
   /**
    *
+   * user
+   *
+   * @static
+   * @memberof user
+   */
+   static saveToDoList = async (params) => {
+    return await request.post(paths.saveToDoList, params);
+  };
+  /**
+   *
    * user list
    *
    * @static

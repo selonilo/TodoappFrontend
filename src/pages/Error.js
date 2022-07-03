@@ -17,7 +17,7 @@ export const Error = (props) => {
           <span>Error</span>
         </div>
         <div className="exception-footer">
-          <h6>Copyright Ⓒ CMV</h6>
+          <h6>Copyright 🅢ALIH</h6>
         </div>
       </div>
     </div>
