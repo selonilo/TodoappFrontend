@@ -19,7 +19,7 @@ export default function DefineUser() {
 
   const showModal = (selectedUser) => {
     setUserInfo(selectedUser?.id ? { name: selectedUser?.name} : emptyUserInfo);
-    setSelectedUser(selectedUser?.name);
+    setSelectedUser(selectedUser)
     setVisible(true);
     console.log(allUser)
   };
@@ -47,6 +47,7 @@ export default function DefineUser() {
       name: userInfo.name,
       userId: localStorage.getItem("id"),
     };
+    console.log(selectedUser?.id)
     const { data = [], error } = await api.user.saveToDoList({ ...params });
     if (error) return Toast.error(error);
 
