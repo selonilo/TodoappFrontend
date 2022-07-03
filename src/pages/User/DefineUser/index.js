@@ -113,7 +113,7 @@ export default function DefineUser() {
         <Button label="Yeni" icon="pi pi-plus" className="p-button-success" onClick={showModal} />
       </div>
       <Modal header={selectedUser?.id ? "Yapılacak Güncelle" : "Yapılacak ekle"} visible={visible} onHide={hideModal} onPress={selectedUser?.id ? handleUpdateUser : handleSaveUser} label={selectedUser?.id && "Güncelle"}>
-        <Input onKeyPress={onKeyPress} autoFocus name="name" label="Yapılacaklar" errorText={submitted && !userInfo.name && "Lütfen boş bırakmayınız."} value={userInfo.username} onChange={onChangeUserInfo} />
+        <Input onKeyPress={onKeyPress} autoFocus name="name" label="Yapılacaklar" errorText={submitted && !userInfo.name && "Lütfen boş bırakmayınız."} value={userInfo.name} onChange={onChangeUserInfo} />
       </Modal>
 
       <DataTable data={allUser} sortOrder={-1}>

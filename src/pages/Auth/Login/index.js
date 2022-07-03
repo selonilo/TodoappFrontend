@@ -29,7 +29,7 @@ export default function Login() {
 
 
 
-  if (isAuthenticated) return <Redirect to={"/showProducts"} />;
+  if (isAuthenticated) return <Redirect to={"/defineUser"} />;
 
   const onSubmit = async () => {
     setSubmitted(true);
