@@ -6,6 +6,7 @@ import classNames from "classnames";
 import { Toast } from "primereact/toast";
 import logo from "../../../assets/images/logo.png";
 import { api } from "../../../services/api";
+import { Input, Modal } from "../../../components";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -15,33 +16,110 @@ export default function Login() {
   const history = useHistory();
   const toast = useRef(null);
   const isAuthenticated = localStorage.getItem("token");
+  const [allUser, setAllUser] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [visible, setVisible] = useState(false);
+  let emptyUserInfo = {
+    username: "",
+    nameSurname: "",
+    email: "",
+    password: "",
+  };
+  const [userInfo, setUserInfo] = useState(emptyUserInfo);
+
+
 
   if (isAuthenticated) return <Redirect to={"/showProducts"} />;
 
   const onSubmit = async () => {
     setSubmitted(true);
-    if(!username || !password ) return;
+    if (!username || !password) return;
     setLoading(true);
 
-    const { data ={}, error } = await (api.auth.login) ({username, password});
+    const { data = {}, error } = await api.auth.login({ username, password });
 
     setLoading(false);
 
-    if(error) return Toast.error(error);
+    if (error) return Toast.error(error);
 
     localStorage.setItem("token", data?.token);
     localStorage.setItem("refreshToken", data?.refreshToken);
 
-    localStorage.setItem("loginName",data?.username);
-    
+    localStorage.setItem("loginName", data?.username);
+
     history.push("/showProducts");
   };
 
   const enterKey = (e) => {
-    if(e.key === "Enter") {
+    if (e.key === "Enter") {
       onSubmit();
     }
   };
+
+  const hideModal = () => {
+    setSubmitted(false);
+    setVisible(false);
+  };
+
+
+  const handleSaveUser = async () => {
+    setSubmitted(true);
+    setVisible(true);
+
+    if (!userInfo.username || !userInfo.nameSurname || !userInfo.email || !userInfo.password) return;
+
+    const params = {
+      username: userInfo.username,
+      nameSurname: userInfo.nameSurname,
+      email: userInfo.email,
+      role: [],
+      password: userInfo.password,
+    };
+    const { data = [], error } = await api.user.saveUser({ ...params });
+    if (error) return Toast.error(error);
+
+    Toast.success("İşlem Başarılı");
+    hideModal();
+  };
+
+  const handleUpdateUser = async () => {
+    setSubmitted(true);
+
+    if (!userInfo.username || !userInfo.nameSurname || !userInfo.email) return;
+
+    const params = {
+      id: selectedUser?.id,
+      username: userInfo.username,
+      nameSurname: userInfo.nameSurname,
+      email: userInfo.email,
+      role: [],
+    };
+    const { data = [], error } = await api.user.updateUser({ ...params });
+    if (error) return Toast.error(error);
+
+
+    Toast.success("işlem Başarılı");
+    hideModal();
+  };
+
+  const showModal = (selectedUser) => {
+    setUserInfo(selectedUser?.id ? { username: selectedUser?.username, nameSurname: selectedUser?.nameSurname, email: selectedUser?.email } : emptyUserInfo);
+    setSelectedUser(selectedUser);
+    setVisible(true);
+  };
+
+
+
+  const onChangeUserInfo = (e) => {
+    setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+  };
+
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      selectedUser?.id ? handleUpdateUser() : handleSaveUser();
+    }
+  };
+
 
   return (
     <div className="login-body">
@@ -89,15 +167,26 @@ export default function Login() {
             </small>
           )}
 
-          <Button
-            label="Giriş Yap"
-            className="p-mt-3"
-            onClick={onSubmit}
-            loading={loading}
-          />
+          <Button label="Giriş Yap" className="p-mt-3" onClick={onSubmit} loading={loading} />
+          <Button label="Yeni" icon="pi pi-plus" className="p-button-success" onClick={showModal} />
+
+          <Modal header={selectedUser?.id ? "Kullancı Güncelle" : "Kullanıcı Ekle"} visible={visible} onHide={hideModal} onPress={selectedUser?.id ? handleUpdateUser : handleSaveUser} label={selectedUser?.id && "Güncelle"}>
+            <Input onKeyPress={onKeyPress} autoFocus name="username" label="Kullanıcı Adı" errorText={submitted && !userInfo.username && "Lütfen Kullanıcı Adı giriniz"} value={userInfo.username} onChange={onChangeUserInfo} />
+            <div className="py-3">
+              <Input onKeyPress={onKeyPress} name="nameSurname" label="Kullanıcı Soyadı" errorText={submitted && !userInfo.nameSurname && "Lütfen Kullanıcı Soyadı giriniz"} value={userInfo.nameSurname} onChange={onChangeUserInfo} />
+            </div>
+            <div className="py-3">
+              <Input onKeyPress={onKeyPress} name="email" label="Kullanıcı E-Posta" errorText={submitted && !userInfo.email && "Lütfen Kullanıcı E-Posta giriniz"} value={userInfo.email} onChange={onChangeUserInfo} />
+            </div>
+            {!selectedUser?.id && (
+              <div className="py-3">
+                <Input onKeyPress={onKeyPress} name="password" label="Kullanıcı Şifresi" type="password" errorText={submitted && !userInfo.password && "Lütfen Kullanıcı Şifrenizi giriniz"} value={userInfo.password} onChange={onChangeUserInfo} />
+              </div>
+            )}
+          </Modal>
         </div>
         <div className="login-footer">
-          <h6>Ⓒ CMV</h6>
+          <h6>🅢ALIH</h6>
         </div>
       </div>
     </div>
