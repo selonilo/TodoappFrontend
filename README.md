@@ -11,6 +11,7 @@ https://62c19cb67a2304107e6e30f5--unique-pothos-7d0e03.netlify.app/#/login
 -Yeni butonu ile kullanıcı eklenir.
 -Bu bilgiler kullanılarak giriş yapılır.
 -Kullanıcı istediği gibi yeni liste ekleyebilir, güncelleyebilir ve silebilir.
+-Sitenin sağ üst koşesinden kullanıcı çıkış yapabilir.
 
 
 Backend Heroku ya deploy edilmiştir.
@@ -28,6 +29,7 @@ https://62c19cb67a2304107e6e30f5--unique-pothos-7d0e03.netlify.app/#/login
 -User is added with new button
 -Login using this information
 -User can add, delete and update list
+-User can log out from the top right corner of the site
 
 
 Backend has been deployed to Heroku
