@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 const axios = require("axios").default;
 axios.defaults.timeout = 300000;
-axios.defaults.baseURL = "http://localhost:8080/";
+axios.defaults.baseURL = "https://springboot-application-todo.herokuapp.com/";
 axios.defaults.headers.common["Accept-Language"] = "tr-TR";
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem("token");
