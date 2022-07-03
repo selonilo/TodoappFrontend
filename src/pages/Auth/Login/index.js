@@ -76,32 +76,13 @@ export default function Login() {
       role: [],
       password: userInfo.password,
     };
+    
     const { data = [], error } = await api.user.saveUser({ ...params });
     if (error) return Toast.error(error);
-
-    Toast.success("İşlem Başarılı");
     hideModal();
+    
   };
 
-  const handleUpdateUser = async () => {
-    setSubmitted(true);
-
-    if (!userInfo.username || !userInfo.nameSurname || !userInfo.email) return;
-
-    const params = {
-      id: selectedUser?.id,
-      username: userInfo.username,
-      nameSurname: userInfo.nameSurname,
-      email: userInfo.email,
-      role: [],
-    };
-    const { data = [], error } = await api.user.updateUser({ ...params });
-    if (error) return Toast.error(error);
-
-
-    Toast.success("işlem Başarılı");
-    hideModal();
-  };
 
   const showModal = (selectedUser) => {
     setUserInfo(selectedUser?.id ? { username: selectedUser?.username, nameSurname: selectedUser?.nameSurname, email: selectedUser?.email } : emptyUserInfo);
@@ -113,12 +94,6 @@ export default function Login() {
 
   const onChangeUserInfo = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
-  };
-
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      selectedUser?.id ? handleUpdateUser() : handleSaveUser();
-    }
   };
 
 
@@ -172,16 +147,16 @@ export default function Login() {
           <Button label="Yeni" icon="pi pi-plus" className="p-button-success" onClick={showModal} />
 
           <Modal header={selectedUser?.id ? "Kullancı Güncelle" : "Kullanıcı Ekle"} visible={visible} onHide={hideModal} onPress={handleSaveUser} label={selectedUser?.id && "Güncelle"}>
-            <Input onKeyPress={onKeyPress} autoFocus name="username" label="Kullanıcı Adı" errorText={submitted && !userInfo.username && "Lütfen Kullanıcı Adı giriniz"} value={userInfo.username} onChange={onChangeUserInfo} />
+            <Input autoFocus name="username" label="Kullanıcı Adı" errorText={submitted && !userInfo.username && "Lütfen Kullanıcı Adı giriniz"} value={userInfo.username} onChange={onChangeUserInfo} />
             <div className="py-3">
-              <Input onKeyPress={onKeyPress} name="nameSurname" label="Kullanıcı Soyadı" errorText={submitted && !userInfo.nameSurname && "Lütfen Kullanıcı Soyadı giriniz"} value={userInfo.nameSurname} onChange={onChangeUserInfo} />
+              <Input name="nameSurname" label="Kullanıcı Soyadı" errorText={submitted && !userInfo.nameSurname && "Lütfen Kullanıcı Soyadı giriniz"} value={userInfo.nameSurname} onChange={onChangeUserInfo} />
             </div>
             <div className="py-3">
-              <Input onKeyPress={onKeyPress} name="email" label="Kullanıcı E-Posta" errorText={submitted && !userInfo.email && "Lütfen Kullanıcı E-Posta giriniz"} value={userInfo.email} onChange={onChangeUserInfo} />
+              <Input name="email" label="Kullanıcı E-Posta" errorText={submitted && !userInfo.email && "Lütfen Kullanıcı E-Posta giriniz"} value={userInfo.email} onChange={onChangeUserInfo} />
             </div>
             {!selectedUser?.id && (
               <div className="py-3">
-                <Input onKeyPress={onKeyPress} name="password" label="Kullanıcı Şifresi" type="password" errorText={submitted && !userInfo.password && "Lütfen Kullanıcı Şifrenizi giriniz"} value={userInfo.password} onChange={onChangeUserInfo} />
+                <Input name="password" label="Kullanıcı Şifresi" type="password" errorText={submitted && !userInfo.password && "Lütfen Kullanıcı Şifrenizi giriniz"} value={userInfo.password} onChange={onChangeUserInfo} />
               </div>
             )}
           </Modal>
