@@ -73,7 +73,7 @@ export default function DefineUser() {
 
   const deleteUser = (item) => {
     confirmDialog({
-      message: "Bu kullanıcıyı silmek istediğinizden emin misiniz ?",
+      message: "Silmek istediğinizden emin misiniz ?",
       header: "İşlemi Onayla",
       acceptLabel: "Evet",
       rejectLabel: "Hayır",
