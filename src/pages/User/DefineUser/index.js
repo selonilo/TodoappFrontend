@@ -42,9 +42,6 @@ export default function DefineUser() {
 
   const handleSaveUser = async () => {
     setSubmitted(true);
-
-    if (!userInfo.username || !userInfo.nameSurname || !userInfo.email || !userInfo.password) return;
-
     const params = {
       name: userInfo.name,
       userId: localStorage.getItem("id"),
@@ -60,17 +57,12 @@ export default function DefineUser() {
 
   const handleUpdateUser = async () => {
     setSubmitted(true);
-
-    if (!userInfo.username || !userInfo.nameSurname || !userInfo.email) return;
-
     const params = {
       id: selectedUser?.id,
-      username: userInfo.username,
-      nameSurname: userInfo.nameSurname,
-      email: userInfo.email,
-      role: [],
+      name: userInfo.name,
+      userId: localStorage.getItem("id"),
     };
-    const { data = [], error } = await api.user.updateUser({ ...params });
+    const { data = [], error } = await api.user.updateToDoList({ ...params });
     if (error) return Toast.error(error);
 
     getToDoList();
@@ -87,7 +79,7 @@ export default function DefineUser() {
       rejectLabel: "Hayır",
       icon: "pi pi-exclamation-triangle",
       accept: async () => {
-        const { data = [], error } = await api.user.deleteUser(item?.id);
+        const { data = [], error } = await api.user.deleteToDoList(item?.id);
         if (error) return Toast.error(error);
         getToDoList();
 
@@ -119,7 +111,7 @@ export default function DefineUser() {
       <div className="flex justify-content-end">
         <Button label="Yeni" icon="pi pi-plus" className="p-button-success" onClick={showModal} />
       </div>
-      <Modal header={selectedUser?.id ? "Kullancı Güncelle" : "Yapılacak ekle"} visible={visible} onHide={hideModal} onPress={selectedUser?.id ? handleUpdateUser : handleSaveUser} label={selectedUser?.id && "Güncelle"}>
+      <Modal header={selectedUser?.id ? "Yapılacak Güncelle" : "Yapılacak ekle"} visible={visible} onHide={hideModal} onPress={selectedUser?.id ? handleUpdateUser : handleSaveUser} label={selectedUser?.id && "Güncelle"}>
         <Input onKeyPress={onKeyPress} autoFocus name="name" label="Yapılacaklar" errorText={submitted && !userInfo.name && "Lütfen boş bırakmayınız."} value={userInfo.username} onChange={onChangeUserInfo} />
       </Modal>
 
