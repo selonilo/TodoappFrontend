@@ -128,7 +128,7 @@ export default function Login() {
       <div className="login-wrapper">
         <div className="login-panel" style={{ padding: 0 }}>
           <div onClick={() => history.push("/")} className="logo p-link" style={{ marginBottom: 10 }}>
-            <img src={logo} alt="logo" style={{ width: 200, height: 200 }} />
+            <img src={logo} alt="logo" style={{ width: 529, height: 229 }} />
           </div>
 
           <InputText

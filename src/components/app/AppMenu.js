@@ -207,7 +207,7 @@ const AppMenu = (props) => {
     >
       <div className="sidebar-logo ml-4" style={{marginTop : 20}}>
         <button className="p-link" onClick={() => history.push("/")}>
-          <img src={logo} alt="logo dashboard-logo" style={{ width:120, height:120}} />
+          <img src={logo} alt="logo dashboard-logo" style={{ width:176, height:76}} />
         </button>
       </div>
 
