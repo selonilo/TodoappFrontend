@@ -25,6 +25,16 @@ class user {
   };
   /**
    *
+   * user list
+   *
+   * @static
+   * @memberof user
+   */
+   static getToDoList = async (id) => {
+    return await request.get(paths.getToDoList + id);
+  };
+  /**
+   *
    * user update
    *
    * @static

@@ -126,7 +126,7 @@ export default function DefineUser() {
         <Button label="Yeni" icon="pi pi-plus" className="p-button-success" onClick={showModal} />
       </div>
       <Modal
-        header={selectedUser?.id ? "Kullancı Güncelle" : "Kullanıcı Ekle"}
+        header={selectedUser?.id ? "Kullancı Güncelle" : "Yapılacak ekle"}
         visible={visible}
         onHide={hideModal}
         onPress={selectedUser?.id ? handleUpdateUser : handleSaveUser}
@@ -135,45 +135,12 @@ export default function DefineUser() {
         <Input
           onKeyPress={onKeyPress}
           autoFocus
-          name="username"
-          label="Kullanıcı Adı"
-          errorText={submitted && !userInfo.username && "Lütfen Kullanıcı Adı giriniz"}
+          name="name"
+          label="Yapılacaklar"
+          errorText={submitted && !userInfo.username && "Lütfen boş bırakmayınız."}
           value={userInfo.username}
           onChange={onChangeUserInfo}
         />
-        <div className="py-3">
-          <Input
-            onKeyPress={onKeyPress}
-            name="nameSurname"
-            label="Kullanıcı Soyadı"
-            errorText={submitted && !userInfo.nameSurname && "Lütfen Kullanıcı Soyadı giriniz"}
-            value={userInfo.nameSurname}
-            onChange={onChangeUserInfo}
-          />
-        </div>
-        <div className="py-3">
-          <Input
-            onKeyPress={onKeyPress}
-            name="email"
-            label="Kullanıcı E-Posta"
-            errorText={submitted && !userInfo.email && "Lütfen Kullanıcı E-Posta giriniz"}
-            value={userInfo.email}
-            onChange={onChangeUserInfo}
-          />
-        </div>
-        {!selectedUser?.id && (
-          <div className="py-3">
-            <Input
-              onKeyPress={onKeyPress}
-              name="password"
-              label="Kullanıcı Şifresi"
-              type="password"
-              errorText={submitted && !userInfo.password && "Lütfen Kullanıcı Şifrenizi giriniz"}
-              value={userInfo.password}
-              onChange={onChangeUserInfo}
-            />
-          </div>
-        )}
       </Modal>
 
       <DataTable data={allUser} sortOrder={-1}>

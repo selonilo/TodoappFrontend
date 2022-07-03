@@ -46,8 +46,9 @@ export default function Login() {
     localStorage.setItem("refreshToken", data?.refreshToken);
 
     localStorage.setItem("loginName", data?.username);
+    localStorage.setItem("id",data?.id);
 
-    history.push("/showProducts");
+    history.push("/defineUser");
   };
 
   const enterKey = (e) => {
