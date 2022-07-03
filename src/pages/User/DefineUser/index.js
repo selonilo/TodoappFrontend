@@ -18,9 +18,10 @@ export default function DefineUser() {
   const [submitted, setSubmitted] = useState(false);
 
   const showModal = (selectedUser) => {
-    setUserInfo(selectedUser?.id ? { username: selectedUser?.username, nameSurname: selectedUser?.nameSurname, email: selectedUser?.email } : emptyUserInfo);
-    setSelectedUser(selectedUser);
+    setUserInfo(selectedUser?.id ? { name: selectedUser?.name} : emptyUserInfo);
+    setSelectedUser(selectedUser?.name);
     setVisible(true);
+    console.log(allUser)
   };
 
   const hideModal = () => {

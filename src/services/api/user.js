@@ -3,6 +3,16 @@ import request from "./request";
 import * as paths from "./paths";
 
 class user {
+    /**
+   *
+   * user
+   *
+   * @static
+   * @memberof user
+   */
+     static saveUser = async (params) => {
+      return await request.post(paths.saveUser, params);
+    };
   /**
    *
    * user

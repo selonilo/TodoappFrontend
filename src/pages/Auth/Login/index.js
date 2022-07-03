@@ -16,9 +16,9 @@ export default function Login() {
   const history = useHistory();
   const toast = useRef(null);
   const isAuthenticated = localStorage.getItem("token");
-  const [allUser, setAllUser] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [visible, setVisible] = useState(false);
+
   let emptyUserInfo = {
     username: "",
     nameSurname: "",
@@ -65,7 +65,7 @@ export default function Login() {
 
   const handleSaveUser = async () => {
     setSubmitted(true);
-    setVisible(true);
+
 
     if (!userInfo.username || !userInfo.nameSurname || !userInfo.email || !userInfo.password) return;
 
@@ -171,7 +171,7 @@ export default function Login() {
           <Button label="Giriş Yap" className="p-mt-3" onClick={onSubmit} loading={loading} />
           <Button label="Yeni" icon="pi pi-plus" className="p-button-success" onClick={showModal} />
 
-          <Modal header={selectedUser?.id ? "Kullancı Güncelle" : "Kullanıcı Ekle"} visible={visible} onHide={hideModal} onPress={selectedUser?.id ? handleUpdateUser : handleSaveUser} label={selectedUser?.id && "Güncelle"}>
+          <Modal header={selectedUser?.id ? "Kullancı Güncelle" : "Kullanıcı Ekle"} visible={visible} onHide={hideModal} onPress={handleSaveUser} label={selectedUser?.id && "Güncelle"}>
             <Input onKeyPress={onKeyPress} autoFocus name="username" label="Kullanıcı Adı" errorText={submitted && !userInfo.username && "Lütfen Kullanıcı Adı giriniz"} value={userInfo.username} onChange={onChangeUserInfo} />
             <div className="py-3">
               <Input onKeyPress={onKeyPress} name="nameSurname" label="Kullanıcı Soyadı" errorText={submitted && !userInfo.nameSurname && "Lütfen Kullanıcı Soyadı giriniz"} value={userInfo.nameSurname} onChange={onChangeUserInfo} />
